@@ -8,6 +8,7 @@ import { WebSocketServer } from 'ws'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { PubSub } from 'graphql-subscriptions'
+import cors from 'cors'
 
 const comments = [
   {
@@ -102,7 +103,7 @@ const apolloServer = new ApolloServer({
 })
 
 await apolloServer.start()
-app.use('/graphql', bodyParser.json(), expressMiddleware(apolloServer))
+app.use('/graphql', cors<cors.CorsRequest>({ origin: ['http://localhost:8080', 'https://studio.apollographql.com'] }), bodyParser.json(), expressMiddleware(apolloServer))
 
 
 httpServer.listen(port, () => {
